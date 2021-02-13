@@ -11,6 +11,8 @@ npm i vote-tracker-js-api-wrapper
 ```
 
 ## Module usage examples
+Disclaimer: I haven't put awaited methods in actual async functions just to make the examples look simpler, just remember most of the examples need to go inside async functions.
+
 ### Vote events
 **In order to listen to vote events you will need to run a few commands with the Vote Tracker Discord bot.**  
 For example, if you are tracking votes for your bot, and you set up those bot lists:  
