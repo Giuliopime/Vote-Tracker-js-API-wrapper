@@ -1,8 +1,8 @@
 # Vote Tracker js API wrapper
 ## Info
-Unofficial wrapper for Vote Tracker Discord bot API.
+An unofficial wrapper for the [Vote Tracker Discord bot](https://discord.com/oauth2/authorize?client_id=479688142908162059&scope=bot&permissions=268561472) API.
 
-**To use Vote Tracker API you must request an API key to [Xavinlol](https://github.com/Xavinlol) (the creator of Vote Tracker Bot and all its related content).**  
+**To use the Vote Tracker API you must request an API token to [Xavinlol](https://github.com/Xavinlol) (the creator of Vote Tracker and all its related content).**  
 You can do that by joining [Vote Tracker's Support Server](https://discord.gg/4WzJWuq).
 
 ## Installation
@@ -12,7 +12,7 @@ npm i vote-tracker-js-api-wrapper
 
 ## Module usage examples
 ### Vote events
-**In order to listen to vote events you will need to run a few commands in the Vote Tracker Discord bot.**  
+**In order to listen to vote events you will need to run a few commands with the Vote Tracker Discord bot.**  
 For example, if you are tracking votes for your bot, and you set up those bot lists:  
 ![Example](https://i.ibb.co/x8CxSWX/votetrackerexample.png)  
 You will need to use the following commands to make Vote Tracker forward all the webhooks to your server:  
