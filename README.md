@@ -12,17 +12,32 @@ npm i vote-tracker-js-api-wrapper
 
 ## Module usage examples
 ### Vote events
-You can listen to vote events like this:
+**In order to listen to vote events you will need to run a few commands in the Vote Tracker Discord bot.**  
+For example, if you are tracking votes for your bot, and you set up those bot lists:  
+![Example](https://i.ibb.co/x8CxSWX/votetrackerexample.png)  
+You will need to use the following commands to make Vote Tracker forward all the webhooks to your server:  
+```
+dbl?bot setforwardurl 1 http://serverIP:3000/topggRoute
+dbl?bot setforwardurl 2 http://serverIP:3000/dbl
+dbl?bot setforwardurl 3 http://serverIP:3000/dboats
+dbl?bot setforwardurl 4 http://serverIP:3000/bfd
+```
+(3000 is just a random port, just make sure to match it in the API wrapper configs like I do in the example below, also, if it's not working, make sure you opened that port in the firewall)
+
+Once you set that up, you can listen to vote events like this:  
 ```js
 const VoteTrackerAPIWrapper = require("vote-tracker-js-api-wrapper")
 
 const botID = "the ID of your bot"
 const apiToken = "your apiToken"
+// Make sure to match the various routes to the ones you have set with the dbl?bot setforwardurl command
 const options = {
     webhooks: {
         port: 3000,
         topgg: "/topggRoute",
-        dbl: "/dbl"
+        dbl: "/dbl",
+        dboats: "/dboats",
+        bfd: "/bfd"
     }
 }
 const VoteTracker = new VoteTrackerAPIWrapper(botID, null, apiToken, options)
@@ -51,8 +66,7 @@ VoteTracker.on("dboats", voteData => {
 VoteTracker.on("bfd", voteData => {
     console.log(voteData)
 })
-```
-
+```  
 
 ### Check the last time a user has voted for your bot on top.gg
 ```js
