@@ -66,11 +66,6 @@ const VoteTracker = new VoteTrackerAPIWrapper(null, serverID, apiToken)
 const userID = "ID of the user for which you want to check the last vote"
 const hasVoted12Hours = await VoteTracker.hasVoted12Hours(userID)
 console.log(hasVoted12Hours) // true | false
-
-// You can also set a different time instead of 12 hours by specifing it via milliseconds, example:
-const milliseconds = 3600000 // equals 1 hour
-const hasVoted1Hour = await VoteTracker.hasVoted12Hours(userID, milliseconds)
-console.log(hasVoted1Hour) // true | false
 ```  
 
 
