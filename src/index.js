@@ -54,7 +54,7 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
     }
 
     /**
-     * Checks for the last vote of a specific user (null if he never voted in the last month)
+     * Checks for the last vote of a specific user (returns null if he never voted in the last month)
      * @param userID - the ID of the user
      * @param [source] - The source to check from ("topgg", "dbl", "dboats", "bfb")
      * @param [type] - Either "bot" or "server"
@@ -94,7 +94,7 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
 
 
     /**
-     * Don't use that method
+     * Don't use this
      */
     async _sendRequest(path) {
         try {
@@ -155,7 +155,7 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
     }
 
     /**
-     * Don't use that method
+     * Don't use this
      */
     _checkVoteMethodsParams(userID, source, type) {
         if(!userID)
