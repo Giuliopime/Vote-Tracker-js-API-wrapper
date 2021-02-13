@@ -10,7 +10,7 @@ const baseURL = `https://api.votetracker.bot/${version}`
 const sources = ["topgg", "dbl", "dboats", "bfd"]
 const types = ["bot", "server"]
 
-module.exports = class VoteTrackerAPI {
+class VoteTrackerAPI {
     /**
      * Class constructor (either a botID or a serverID must be provided, or both)
      * @param {string} botID - the ID of the bot you need to track votes for
@@ -293,7 +293,9 @@ module.exports = class VoteTrackerAPI {
     }
 }
 
-eventEmitter(this.VoteTrackerAPI.prototype);
+eventEmitter(VoteTrackerAPI.prototype);
+
+module.exports = VoteTrackerAPI;
 
 /**
  * @typedef {object} LastVote
