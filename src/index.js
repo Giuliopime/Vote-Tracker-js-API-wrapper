@@ -10,9 +10,9 @@ const types = ["bot", "server"]
 
 module.exports = class VoteTrackerAPI extends EventEmitter {
     /**
-     * Class constructor
+     * Class constructor (either a botID or a serverID must be provided, or both)
      * @param {string} botID - the ID of the bot you need to track votes for
-     * @param {string} serverID - the ID of the server you need to track votes for
+     * @param {string} [serverID] - the ID of the server you need to track votes for
      * @param {string} apiToken - your Vote Tracker API key
      * @param {object} [options] - Options for the API wrapper
      * @param {string} options.defaultSource - The default source for all the methods that check for votes. Available sources are: "topgg", "dbl", "dboats", "bfd"
