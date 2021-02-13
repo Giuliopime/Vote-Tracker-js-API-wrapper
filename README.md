@@ -11,6 +11,9 @@ npm i vote-tracker-js-api-wrapper
 ```
 
 ## Module usage examples
+### Receiving vote events
+
+
 ### Check the last time a user has voted for your bot on top.gg
 ```js
 const VoteTrackerAPIWrapper = require("vote-tracker-js-api-wrapper")

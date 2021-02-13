@@ -1,4 +1,6 @@
-const EventEmitter = require("eventemitter3")
+const express = require('express')
+const bodyParser = require('body-parser')
+const eventEmitter = require('event-emitter');
 const axios = require("axios").default
 const VoteTrackerReqError = require("./VoteTrackerReqError")
 
@@ -8,15 +10,23 @@ const baseURL = `https://api.votetracker.bot/${version}`
 const sources = ["topgg", "dbl", "dboats", "bfd"]
 const types = ["bot", "server"]
 
-module.exports = class VoteTrackerAPI extends EventEmitter {
+module.exports = class VoteTrackerAPI {
     /**
      * Class constructor (either a botID or a serverID must be provided, or both)
      * @param {string} botID - the ID of the bot you need to track votes for
      * @param {string} [serverID] - the ID of the server you need to track votes for
      * @param {string} apiToken - your Vote Tracker API key
+     *
      * @param {object} [options] - Options for the API wrapper
      * @param {string} options.defaultSource - The default source for all the methods that check for votes. Available sources are: "topgg", "dbl", "dboats", "bfd"
      * @param {string} options.defaultType - The default type ("bot" or "server") for all the methods that check for votes
+     *
+     * @param {object} options.webhooks - webhook settings
+     * @param {string} options.webhooks.port - webhook port
+     * @param {string} options.webhook.topgg - topgg route
+     * @param {string} options.webhook.dbl - dbl route
+     * @param {string} options.webhook.dboats - dboats route
+     * @param {string} options.webhook.bfd - bfd route
      * @throws {TypeError} check the error message
      */
     constructor(botID, serverID, apiToken, options = { defaultSource: "topgg", defaultType: "bot" }) {
@@ -37,8 +47,6 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
         else if(!types.includes(options.defaultType))
             throw new TypeError(`Illegal options defaultType, must be one of ${types}`)
 
-        super()
-
         this._axiosInstance = axios.create({
             baseURL: baseURL,
             headers: {
@@ -46,6 +54,10 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
                 "Content-Type": "application/json"
             }
         })
+
+        if(options.webhooks)
+            this._configureWebhooks(options.webhooks)
+        this._events = {};
 
         this._botID = botID
         this._serverID = serverID
@@ -91,7 +103,6 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
 
         return (Date.now() - data.timestamp) <= milliseconds
     }
-
 
     /**
      * Don't use this
@@ -171,6 +182,102 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
             throw new TypeError("No server ID has been provided")
     }
 
+    /**
+     * Don't use this
+     */
+    _configureWebhooks(webhooks) {
+        if (!webhooks.port)
+            throw new TypeError("Provide a valid port for the webhook")
+
+        if (!webhooks.topgg && !webhooks.dbl && !webhooks.dboats && !webhooks.bfd)
+            throw new TypeError("You must provide at least a source route")
+
+        const app = express()
+        app.use(bodyParser.urlencoded({ extended: true }))
+        app.use(bodyParser.json())
+
+        if(webhooks.topgg) {
+            if(!webhooks.topgg.startsWith("/"))
+                webhooks.topgg = "/" + webhooks.topgg;
+
+            app.post(webhooks.topgg, (req, res) => {
+                const voteData = {
+                    userID: req.body.user,
+                    botID: req.body.bot,
+                    type: req.body.type,
+                    isWeekend: req.body.isWeekend,
+                    fullWebhook: req.body
+                }
+                if(req.body.guild) {
+                    voteData.serverID = req.body.guild
+                    delete voteData.botID
+                }
+
+                this.emit("topgg", voteData)
+
+                res.status(200)
+            });
+        }
+
+        if(webhooks.dbl) {
+            if(!webhooks.dbl.startsWith("/"))
+                webhooks.dbl = "/" + webhooks.dbl;
+
+            app.post(webhooks.dbl, (req, res) => {
+                const voteData = {
+                    userID: req.body.id,
+                    admin: req.body.admin,
+                    avatar: req.body.avatar,
+                    username: req.body.username,
+                    fullWebhook: req.body
+                }
+
+                this.emit("dbl", voteData)
+
+                res.status(200)
+            });
+        }
+
+        if(webhooks.dboats) {
+            if(!webhooks.dboats.startsWith("/"))
+                webhooks.dboats = "/" + webhooks.dboats;
+
+            app.post(webhooks.dboats, (req, res) => {
+                const voteData = {
+                    userID: req.body.user.id,
+                    username: req.body.user.username,
+                    discriminator: req.body.user.discriminator,
+                    fullWebhook: req.body
+                }
+
+                this.emit("dboats", voteData)
+
+                res.status(200)
+            });
+        }
+
+        if(webhooks.bfd) {
+            if(!webhooks.bfd.startsWith("/"))
+                webhooks.bfd = "/" + webhooks.bfd;
+
+            app.post(webhooks.bfd, (req, res) => {
+                const voteData = {
+                    userID: req.body.user,
+                    votes: req.body.votes,
+                    fullWebhook: req.body
+                }
+
+                this.emit("bfd", voteData)
+
+                res.status(200)
+            });
+        }
+
+        app.listen(webhooks.port, () =>
+            console.log(`Listening to Vote Tracker webhooks at http://localhost:${webhooks.port}`)
+        )
+    }
+
     // Getters
     get botID() {
         return this._botID
@@ -185,6 +292,8 @@ module.exports = class VoteTrackerAPI extends EventEmitter {
         return this._options
     }
 }
+
+eventEmitter(VoteTrackerAPI.prototype);
 
 /**
  * @typedef {object} LastVote
