@@ -293,7 +293,7 @@ module.exports = class VoteTrackerAPI {
     }
 }
 
-eventEmitter(VoteTrackerAPI.prototype);
+eventEmitter(this.VoteTrackerAPI.prototype);
 
 /**
  * @typedef {object} LastVote
