@@ -274,7 +274,7 @@ module.exports = class VoteTrackerAPI {
         }
 
         app.listen(webhooks.port, () =>
-            console.log(`Listening to Vote Tracker webhooks at http://localhost:${webhooks.port}`)
+            this.emit("ready", `Listening to vote webhooks at http://localhost:${webhooks.port}`)
         )
     }
 

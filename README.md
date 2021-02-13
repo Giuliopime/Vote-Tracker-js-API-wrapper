@@ -11,7 +11,47 @@ npm i vote-tracker-js-api-wrapper
 ```
 
 ## Module usage examples
-### Receiving vote events
+### Vote events
+You can listen to vote events like this:
+```js
+const VoteTrackerAPIWrapper = require("vote-tracker-js-api-wrapper")
+
+const botID = "the ID of your bot"
+const apiToken = "your apiToken"
+const options = {
+    webhooks: {
+        port: 3000,
+        topgg: "/topggRoute",
+        dbl: "/dbl"
+    }
+}
+const VoteTracker = new VoteTrackerAPIWrapper(botID, null, apiToken, options)
+
+VoteTracker.once("ready", message => {
+    console.log(message);
+})
+
+/*
+Every voteData object contains the userID property with the ID of the user who voted.
+It has a few other properties which you can see in the index.js file or by console logging them.
+It also always contain the full webhook data at voteData.fullWebhook
+ */
+VoteTracker.on("topgg", voteData => {
+    console.log(voteData)
+})
+
+VoteTracker.on("dbl", voteData => {
+    console.log(voteData)
+})
+
+VoteTracker.on("dboats", voteData => {
+    console.log(voteData)
+})
+
+VoteTracker.on("bfd", voteData => {
+    console.log(voteData)
+})
+```
 
 
 ### Check the last time a user has voted for your bot on top.gg
@@ -23,7 +63,11 @@ const apiToken = "your apiToken"
 const VoteTracker = new VoteTrackerAPIWrapper(botID, null, apiToken)
 
 const userID = "ID of the user for which you want to check the last vote"
-const lastVote = await VoteTracker.lastVote(userID)
+try {
+    const lastVote = await VoteTracker.lastVote(userID)
+} catch (e) {
+    console.log(e)
+}
 /*
 lastVote will be a javascript object with the following properties or it will be null if the user hasn't voted in the last month
  @prop {string} entity_id - the ID of the bot / server
@@ -47,13 +91,21 @@ const options = {
 const VoteTracker = new VoteTrackerAPIWrapper(botID, null, apiToken, options)
 
 const userID = "ID of the user for which you want to check the last vote"
-const hasVoted12Hours = await VoteTracker.hasVoted12Hours(userID)
-console.log(hasVoted12Hours) // true | false
+try {
+    const hasVoted12Hours = await VoteTracker.hasVoted12Hours(userID)
+    console.log(hasVoted12Hours) // true | false
+} catch (e) {
+    console.log(e)
+}
 
 // You can also set a different time instead of 12 hours by specifing it via milliseconds, example:
 const milliseconds = 3600000 // equals 1 hour
-const hasVoted1Hour = await VoteTracker.hasVoted12Hours(userID, milliseconds)
-console.log(hasVoted1Hour) // true | false
+try {
+    const hasVoted1Hour = await VoteTracker.hasVoted12Hours(userID, milliseconds)
+    console.log(hasVoted1Hour) // true | false
+} catch (e) {
+    console.log(e)
+}
 ```  
 
 
@@ -67,12 +119,16 @@ const apiToken = "your apiToken"
 const VoteTracker = new VoteTrackerAPIWrapper(null, serverID, apiToken)
 
 const userID = "ID of the user for which you want to check the last vote"
-const hasVoted12Hours = await VoteTracker.hasVoted12Hours(userID)
-console.log(hasVoted12Hours) // true | false
+try {
+    const hasVoted12Hours = await VoteTracker.hasVoted12Hours(userID)
+    console.log(hasVoted12Hours) // true | false
+} catch (e) {
+    console.log(e)
+}
 ```  
 
 
-#### Other examples
+### Other examples
 ```js
 const VoteTrackerAPIWrapper = require("vote-tracker-js-api-wrapper")
 
@@ -87,17 +143,28 @@ const options = {
 const VoteTracker = new VoteTrackerAPIWrapper(botID, serverID, apiToken, options)
 
 const userID = "ID of the user for which you want to check the last vote"
-const lastVote = await VoteTracker.hasVoted12Hours(userID)
-console.log(lastVote) // true | false (has voted in the past 12 hours for your server on top.gg)
+try {
+    const lastVote = await VoteTracker.hasVoted12Hours(userID)
+    console.log(lastVote) // true | false (has voted in the past 12 hours for your server on top.gg)
+} catch (e) {
+    console.log(e)
+}
 
 let type = "bot"
-const lastVote = await VoteTracker.hasVoted12Hours(userID, null, type)
-console.log(lastVote) // true | false (has voted in the past 12 hours for your bot on top.gg)
+try {
+    const lastVote = await VoteTracker.hasVoted12Hours(userID, null, type)
+    console.log(lastVote) // true | false (has voted in the past 12 hours for your bot on top.gg)
+} catch (e) {
+    console.log(e)
+}
 
 const source = "bfb"
 type = "bot"
-const lastVote = await VoteTracker.hasVoted12Hours(userID, source, type)
-console.log(lastVote) // true | false (has voted in the past 12 hours for your bot on botsfordiscord.com)
-
+try {
+    const lastVote = await VoteTracker.hasVoted12Hours(userID, source, type)
+    console.log(lastVote) // true | false (has voted in the past 12 hours for your bot on botsfordiscord.com)
+} catch (e) {
+    console.log(e)
+}
 // For more info you can dive into the index.js file, it's pretty easy to understand its comments
 ```
