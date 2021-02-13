@@ -1,0 +1,23 @@
+{
+  "name": "vote-tracker-js-api-wrapper",
+  "version": "1.0.0",
+  "description": "A simple wrapper for the Vote Tracker Discord bot API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Giuliopime/Vote-Tracker-js-API-wrapper.git"
+  },
+  "author": "Giulio Pimenoff Verdolin",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Giuliopime/Vote-Tracker-js-API-wrapper/issues"
+  },
+  "homepage": "https://github.com/Giuliopime/Vote-Tracker-js-API-wrapper#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "eventemitter3": "^4.0.7"
+  }
+}
