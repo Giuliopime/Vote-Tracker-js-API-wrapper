@@ -11,7 +11,7 @@ npm i vote-tracker-js-api-wrapper
 ```
 
 ## IMPORTANT
-**If you need support with the wrapper join the [Vote Tracker's Support Server](https://discord.gg/4WzJWuq) and ask for help in the related API channel.  
+**If you need support with the wrapper join the [Vote Tracker's Support Server](https://discord.gg/4WzJWuq) and ask for help in the related API channel.**  
 **Do not ask Xavin for support!**
 
 ## Module usage examples
