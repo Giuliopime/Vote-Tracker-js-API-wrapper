@@ -9,11 +9,11 @@ You can do that by joining [Vote Tracker's Support Server](https://discord.gg/4W
 ```
 npm i vote-tracker-js-api-wrapper
 ```
-
+<br/><br/>
 ## IMPORTANT
 ### **If you need support with the wrapper join the [Vote Tracker's Support Server](https://discord.gg/4WzJWuq) and ask for help in the related API channel.**    
 ### **Do not ask Xavin for support!**
-
+<br/><br/>
 ## Module usage examples
 Disclaimer: I haven't put awaited methods in actual async functions just to make the examples look simpler, just remember most of the examples need to go inside async functions.
 
