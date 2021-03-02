@@ -215,7 +215,7 @@ class VoteTrackerAPI {
 
                 this.emit("topgg", voteData)
 
-                res.status(200)
+                res.status(200).send()
             });
         }
 
@@ -234,7 +234,7 @@ class VoteTrackerAPI {
 
                 this.emit("dbl", voteData)
 
-                res.status(200)
+                res.status(200).send()
             });
         }
 
@@ -252,7 +252,7 @@ class VoteTrackerAPI {
 
                 this.emit("dboats", voteData)
 
-                res.status(200)
+                res.status(200).send()
             });
         }
 
@@ -269,7 +269,7 @@ class VoteTrackerAPI {
 
                 this.emit("bfd", voteData)
 
-                res.status(200)
+                res.status(200).send()
             });
         }
 
